@@ -33,7 +33,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 // API publica - nao requer autenticacao
-const VERSION = "1.0.1";
+const VERSION = "1.0.2";
 const API_URL = "https://api-cnpj.sdebot.top";
 
 // =============================================================================

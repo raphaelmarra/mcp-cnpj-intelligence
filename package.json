@@ -1,6 +1,6 @@
 {
   "name": "mcp-cnpj-intelligence",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP Server para consulta de CNPJs brasileiros. Base de 27M empresas da Receita Federal.",
   "main": "dist/index.js",
   "bin": {
