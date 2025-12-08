@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * MCP CNPJ Intelligence Server v1.0.0
+ * MCP CNPJ Intelligence Server v1.0.1
  *
  * Base de dados: ~27 milhoes de empresas brasileiras (Receita Federal)
  *
@@ -33,6 +33,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 // API publica - nao requer autenticacao
+const VERSION = "1.0.1";
 const API_URL = "https://api-cnpj.sdebot.top";
 
 // =============================================================================
@@ -695,13 +696,46 @@ async function handleToolCall(name: string, args: Record<string, unknown>): Prom
 
 // =============================================================================
 // SERVIDOR MCP
-// =============================================================================
-
 async function main() {
+  // Verificar flags de CLI
+  const args = process.argv.slice(2);
+
+  if (args.includes("--help") || args.includes("-h")) {
+    console.log(`MCP CNPJ Intelligence v${VERSION}
+
+ATENÇÃO: Este é um servidor MCP. Não execute diretamente no terminal!
+
+INSTALAÇÃO:
+  npm install -g mcp-cnpj-intelligence
+
+CONFIGURAÇÃO (Gemini CLI ou Claude Desktop):
+  Adicione ao ~/.gemini/settings.json ou claude_desktop_config.json:
+  {
+    "mcpServers": {
+      "cnpj-intelligence": {
+        "command": "npx",
+        "args": ["-y", "mcp-cnpj-intelligence"]
+      }
+    }
+  }
+
+USO:
+  gemini "busque CNPJ 00.000.000/0001-91"
+
+DOCUMENTAÇÃO: https://github.com/setor-embalagem/mcp-cnpj-intelligence
+API: https://api-cnpj.sdebot.top`);
+    process.exit(0);
+  }
+
+  if (args.includes("--version") || args.includes("-v")) {
+    console.log(`${VERSION}`);
+    process.exit(0);
+  }
+
   const server = new Server(
     {
       name: "mcp-cnpj-intelligence",
-      version: "1.0.0",
+      version: VERSION,
     },
     {
       capabilities: {
@@ -726,7 +760,7 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
-  console.error("MCP CNPJ Intelligence v1.0.0 iniciado");
+  console.error(`MCP CNPJ Intelligence v${VERSION} iniciado`);
   console.error("Base: ~27M empresas brasileiras | 16 ferramentas disponiveis");
 }
 
